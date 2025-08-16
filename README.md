@@ -1,54 +1,44 @@
-# 🚀 Mini Seller Console
+🚀 Mini Seller Console
 
-A lightweight **React + Tailwind CSS** console to manage leads and convert them into opportunities.  
-Designed to demonstrate **state management**, **optimistic updates**, **slide-over panels**, and a **responsive UI** using only local JSON data.
+A lightweight React + Tailwind CSS console to manage leads and convert them into opportunities.
+Designed to demonstrate state management, optimistic updates, slide-over panels, and a responsive UI using local JSON data only.
 
----
+⚡ Features
 
-## ⚡ Features
+📊 Dashboard – summarizes total Leads and Opportunities
 
-### 📋 Leads Management
-- Load leads from `src/leads.json`
-- 🔍 Search by **name** or **company**
-- 🎯 Filter by **status**: New, Contacted, Qualified, Lost
-- 📊 Sort by **score descending**
+📋 LeadsPage – displays a list of leads with their status
 
-### 📝 Lead Detail Panel
-- Slide-over panel when clicking a lead
-- ✏️ Inline edit **email** and **status**
-- 💾 Save/Cancel actions with error handling
+📝 LeadDetailPanel – sliding panel to edit email and status, and convert a lead into an opportunity
 
-### 💼 Opportunities
-- Convert a lead into an opportunity with a single click
-- Simple table with:
-  - ID 🆔
-  - Name 🧑‍💼
-  - Stage 📈
-  - Account Name 🏢
-  - Optional Amount 💰
+💼 Opportunities – table of converted leads with ID, Name, Stage, Account Name, and optional Amount
 
-### 🌟 UX & Performance
-- ⏳ Loading, empty, and error states
-- 🏎️ Handles ~100 leads smoothly
-- 📱 Fully responsive (desktop → mobile)
+🌐 Context API – manages global state for leads and opportunities
 
----
+🎨 Tailwind CSS – slide-in animation for LeadDetailPanel
 
-## 🛠️ Tech Stack
+🌍 Navigation – powered by React Router
 
-- ⚛️ React (v19.1.1)
-- ⚡ Vite
-- 🎨 Tailwind CSS
-- 📂 Local JSON as data source
-- 🌐 Context API for global state
-- ⏱️ Simulated latency with `setTimeout`
+⏳ Loading, empty, and error states – smooth UX for asynchronous data
 
----
+📱 Fully responsive – works from desktop to mobile
 
-## 🏁 Getting Started
+🛠️ Tech Stack
 
-### 1️⃣ Clone the repo
-```bash
+⚛️ React (v19.1.1)
+
+⚡ Vite
+
+🎨 Tailwind CSS
+
+📂 Local JSON as data source
+
+🌐 Context API for global state
+
+⏱️ Simulated latency with setTimeout
+
+🏁 Getting Started
+1️⃣ Clone the repo
 git clone https://github.com/yourusername/mini-seller-console.git
 cd mini-seller-console
 
@@ -73,6 +63,7 @@ mini-seller-console/
 │  └─ components/          # React components
 │     ├─ LeadsList.jsx
 │     ├─ LeadDetailPanel.jsx
+│     ├─ Dashboard.jsx
 │     ├─ OpportunitiesTable.jsx
 │     └─ SlideOver.jsx
 ├─ index.html
@@ -82,6 +73,14 @@ mini-seller-console/
 
 🔮 Future Improvements
 
+🔐 Authentication/Login – protect pages and personalize data per user
+
+🌐 Backend Integration – connect to a real REST API instead of local JSON
+
+🔍 Advanced Lead Search & Filters – improve filtering and sorting capabilities
+
+📄 Data Export – export leads and opportunities as PDF or CSV
+
 💾 Persist filters and sort order in localStorage
 
 ⚠️ Rollback for network errors (optimistic update failures)
@@ -89,6 +88,18 @@ mini-seller-console/
 📱 Enhanced responsive design for tablets and mobile
 
 ✅ Unit and integration tests
+
+📝 LeadDetailPanel Overview
+
+Edit Email and Status – update lead information inline
+
+Email Validation – ensures correct email format before saving
+
+Save Button – updates context with optimistic UI
+
+Convert to Opportunity – quickly create new opportunities from a lead
+
+Sliding Panel – smooth slide-in animation for better UX
 
 📄 Example Lead (leads.json)
 {
@@ -100,7 +111,3 @@ mini-seller-console/
   "score": 85,
   "status": "New"
 }
-
-📝 License
-
-MIT License

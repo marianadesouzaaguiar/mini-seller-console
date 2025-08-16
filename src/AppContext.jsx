@@ -7,20 +7,14 @@ export function AppProvider({ children }) {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
-  const [sortDesc, setSortDesc] = useState(true);
-
   const [selectedLead, setSelectedLead] = useState(null);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
-
   const [opportunities, setOpportunities] = useState([]);
 
   useEffect(() => {
     fetchLeads()
-      .then((data) => setLeads(data))
+      .then(setLeads)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
@@ -65,12 +59,6 @@ export function AppProvider({ children }) {
         leads,
         loading,
         error,
-        query,
-        setQuery,
-        statusFilter,
-        setStatusFilter,
-        sortDesc,
-        setSortDesc,
         selectedLead,
         setSelectedLead,
         saving,

@@ -1,14 +1,26 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppProvider } from "./AppContext";
-import LeadsList from "./components/LeadsList";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Dashboard from "./pages/Dashboard";
+import LeadsPage from "./pages/LeadsPage";
+import OpportunitiesPage from "./pages/OpportunitiesPage";
 
 export default function App() {
   return (
     <AppProvider>
-      <div className="p-4 max-w-7xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">Mini Seller Console</h1>
-        <LeadsList />
-      </div>
+      <Router>
+        <Header />
+        <main className="min-h-[80vh] p-4">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/leads" element={<LeadsPage />} />
+            <Route path="/opportunities" element={<OpportunitiesPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </Router>
     </AppProvider>
   );
 }

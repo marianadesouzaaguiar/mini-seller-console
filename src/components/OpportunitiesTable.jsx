@@ -1,8 +1,8 @@
-// src/components/OpportunitiesTable.jsx
 import React from "react";
 
 export default function OpportunitiesTable({ opps }) {
-  if (!opps.length) return <p className="text-gray-500 text-center">No opportunities yet.</p>;
+  if (!opps.length)
+    return <p className="text-gray-500 text-center">No opportunities yet.</p>;
 
   return (
     <div className="p-4 border rounded-md">
