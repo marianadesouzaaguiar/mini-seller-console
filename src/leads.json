@@ -1,0 +1,902 @@
+[
+    {
+      "id": 1,
+      "name": "Noah Hill",
+      "company": "AgriSmart",
+      "email": "noah.hill@agrismart.com",
+      "source": "Cold Call",
+      "score": 87,
+      "status": "Qualified"
+    },
+    {
+      "id": 2,
+      "name": "Liam Young",
+      "company": "EcoLiving",
+      "email": "liam.young@ecoliving.com",
+      "source": "Referral",
+      "score": 51,
+      "status": "Qualified"
+    },
+    {
+      "id": 3,
+      "name": "Daniel Davis",
+      "company": "BrightFuture",
+      "email": "daniel.davis@brightfuture.com",
+      "source": "Website",
+      "score": 54,
+      "status": "Qualified"
+    },
+    {
+      "id": 4,
+      "name": "Xavier Hall",
+      "company": "FinServe",
+      "email": "xavier.hall@finserve.com",
+      "source": "Event",
+      "score": 97,
+      "status": "Lost"
+    },
+    {
+      "id": 5,
+      "name": "Frank Smith",
+      "company": "SmartHome",
+      "email": "frank.smith@smarthome.com",
+      "source": "Referral",
+      "score": 53,
+      "status": "Qualified"
+    },
+    {
+      "id": 6,
+      "name": "Olivia Hill",
+      "company": "NextGen",
+      "email": "olivia.hill@nextgen.com",
+      "source": "Website",
+      "score": 60,
+      "status": "Contacted"
+    },
+    {
+      "id": 7,
+      "name": "Emma Smith",
+      "company": "Sportify",
+      "email": "emma.smith@sportify.com",
+      "source": "Website",
+      "score": 65,
+      "status": "Contacted"
+    },
+    {
+      "id": 8,
+      "name": "Mia King",
+      "company": "Foodies",
+      "email": "mia.king@foodies.com",
+      "source": "Website",
+      "score": 62,
+      "status": "Contacted"
+    },
+    {
+      "id": 9,
+      "name": "Olivia Rodriguez",
+      "company": "TechCorp",
+      "email": "olivia.rodriguez@techcorp.com",
+      "source": "LinkedIn",
+      "score": 56,
+      "status": "Contacted"
+    },
+    {
+      "id": 10,
+      "name": "Quincy Lewis",
+      "company": "SafeBank",
+      "email": "quincy.lewis@safebank.com",
+      "source": "Event",
+      "score": 91,
+      "status": "Lost"
+    },
+    {
+      "id": 11,
+      "name": "Brian King",
+      "company": "FinServe",
+      "email": "brian.king@finserve.com",
+      "source": "LinkedIn",
+      "score": 86,
+      "status": "Qualified"
+    },
+    {
+      "id": 12,
+      "name": "Yara Davis",
+      "company": "SmartHome",
+      "email": "yara.davis@smarthome.com",
+      "source": "Event",
+      "score": 67,
+      "status": "Lost"
+    },
+    {
+      "id": 13,
+      "name": "Isabella Smith",
+      "company": "Innova",
+      "email": "isabella.smith@innova.com",
+      "source": "Website",
+      "score": 93,
+      "status": "New"
+    },
+    {
+      "id": 14,
+      "name": "Daniel Nguyen",
+      "company": "EcoLiving",
+      "email": "daniel.nguyen@ecoliving.com",
+      "source": "LinkedIn",
+      "score": 97,
+      "status": "New"
+    },
+    {
+      "id": 15,
+      "name": "Frank Davis",
+      "company": "BrightFuture",
+      "email": "frank.davis@brightfuture.com",
+      "source": "Event",
+      "score": 89,
+      "status": "Lost"
+    },
+    {
+      "id": 16,
+      "name": "Sophia Allen",
+      "company": "SafeBank",
+      "email": "sophia.allen@safebank.com",
+      "source": "Cold Call",
+      "score": 83,
+      "status": "Contacted"
+    },
+    {
+      "id": 17,
+      "name": "Isabella Adams",
+      "company": "EduGlobal",
+      "email": "isabella.adams@eduglobal.com",
+      "source": "Event",
+      "score": 50,
+      "status": "Contacted"
+    },
+    {
+      "id": 18,
+      "name": "Liam Rodriguez",
+      "company": "MedSolutions",
+      "email": "liam.rodriguez@medsolutions.com",
+      "source": "Referral",
+      "score": 85,
+      "status": "New"
+    },
+    {
+      "id": 19,
+      "name": "Daniel King",
+      "company": "Sportify",
+      "email": "daniel.king@sportify.com",
+      "source": "LinkedIn",
+      "score": 58,
+      "status": "Qualified"
+    },
+    {
+      "id": 20,
+      "name": "Rachel Martinez",
+      "company": "NextGen",
+      "email": "rachel.martinez@nextgen.com",
+      "source": "LinkedIn",
+      "score": 70,
+      "status": "Qualified"
+    },
+    {
+      "id": 21,
+      "name": "Xavier Martinez",
+      "company": "FinServe",
+      "email": "xavier.martinez@finserve.com",
+      "source": "Event",
+      "score": 94,
+      "status": "Contacted"
+    },
+    {
+      "id": 22,
+      "name": "Zach King",
+      "company": "BrightFuture",
+      "email": "zach.king@brightfuture.com",
+      "source": "Website",
+      "score": 99,
+      "status": "New"
+    },
+    {
+      "id": 23,
+      "name": "Quincy Adams",
+      "company": "Sportify",
+      "email": "quincy.adams@sportify.com",
+      "source": "Referral",
+      "score": 60,
+      "status": "Qualified"
+    },
+    {
+      "id": 24,
+      "name": "Karen Thompson",
+      "company": "Foodies",
+      "email": "karen.thompson@foodies.com",
+      "source": "Event",
+      "score": 74,
+      "status": "Qualified"
+    },
+    {
+      "id": 25,
+      "name": "Karen Smith",
+      "company": "TravelCo",
+      "email": "karen.smith@travelco.com",
+      "source": "Cold Call",
+      "score": 64,
+      "status": "Contacted"
+    },
+    {
+      "id": 26,
+      "name": "Olivia Scott",
+      "company": "EcoLiving",
+      "email": "olivia.scott@ecoliving.com",
+      "source": "Website",
+      "score": 63,
+      "status": "New"
+    },
+    {
+      "id": 27,
+      "name": "Rachel Torres",
+      "company": "AutoDrive",
+      "email": "rachel.torres@autodrive.com",
+      "source": "Referral",
+      "score": 58,
+      "status": "Contacted"
+    },
+    {
+      "id": 28,
+      "name": "Paul Green",
+      "company": "EduGlobal",
+      "email": "paul.green@eduglobal.com",
+      "source": "Referral",
+      "score": 100,
+      "status": "Qualified"
+    },
+    {
+      "id": 29,
+      "name": "Jack Smith",
+      "company": "Foodies",
+      "email": "jack.smith@foodies.com",
+      "source": "LinkedIn",
+      "score": 85,
+      "status": "Lost"
+    },
+    {
+      "id": 30,
+      "name": "Uma Hill",
+      "company": "Foodies",
+      "email": "uma.hill@foodies.com",
+      "source": "Email Campaign",
+      "score": 62,
+      "status": "Qualified"
+    },
+    {
+      "id": 31,
+      "name": "Olivia Johnson",
+      "company": "NextGen",
+      "email": "olivia.johnson@nextgen.com",
+      "source": "Email Campaign",
+      "score": 62,
+      "status": "Contacted"
+    },
+    {
+      "id": 32,
+      "name": "Paul Garcia",
+      "company": "BuildRight",
+      "email": "paul.garcia@buildright.com",
+      "source": "Email Campaign",
+      "score": 63,
+      "status": "Lost"
+    },
+    {
+      "id": 33,
+      "name": "Quincy Walker",
+      "company": "HealthPlus",
+      "email": "quincy.walker@healthplus.com",
+      "source": "LinkedIn",
+      "score": 52,
+      "status": "New"
+    },
+    {
+      "id": 34,
+      "name": "Isabella Hill",
+      "company": "AutoDrive",
+      "email": "isabella.hill@autodrive.com",
+      "source": "LinkedIn",
+      "score": 60,
+      "status": "Qualified"
+    },
+    {
+      "id": 35,
+      "name": "Zach Wright",
+      "company": "HealthPlus",
+      "email": "zach.wright@healthplus.com",
+      "source": "Cold Call",
+      "score": 88,
+      "status": "Lost"
+    },
+    {
+      "id": 36,
+      "name": "Quincy Rodriguez",
+      "company": "DataWorks",
+      "email": "quincy.rodriguez@dataworks.com",
+      "source": "Event",
+      "score": 62,
+      "status": "Qualified"
+    },
+    {
+      "id": 37,
+      "name": "Liam King",
+      "company": "Sportify",
+      "email": "liam.king@sportify.com",
+      "source": "Website",
+      "score": 55,
+      "status": "Contacted"
+    },
+    {
+      "id": 38,
+      "name": "Sophia Smith",
+      "company": "TravelCo",
+      "email": "sophia.smith@travelco.com",
+      "source": "Cold Call",
+      "score": 56,
+      "status": "Lost"
+    },
+    {
+      "id": 39,
+      "name": "Grace Hall",
+      "company": "TechCorp",
+      "email": "grace.hall@techcorp.com",
+      "source": "Event",
+      "score": 76,
+      "status": "Qualified"
+    },
+    {
+      "id": 40,
+      "name": "Emma Anderson",
+      "company": "SafeBank",
+      "email": "emma.anderson@safebank.com",
+      "source": "Event",
+      "score": 60,
+      "status": "Contacted"
+    },
+    {
+      "id": 41,
+      "name": "Victor Mendes",
+      "company": "TechCorp",
+      "email": "victor.mendes@techcorp.com",
+      "source": "Referral",
+      "score": 62,
+      "status": "Contacted"
+    },
+    {
+      "id": 42,
+      "name": "Emma Thompson",
+      "company": "BrightFuture",
+      "email": "emma.thompson@brightfuture.com",
+      "source": "Referral",
+      "score": 54,
+      "status": "Lost"
+    },
+    {
+      "id": 43,
+      "name": "Paul Young",
+      "company": "TravelCo",
+      "email": "paul.young@travelco.com",
+      "source": "Event",
+      "score": 77,
+      "status": "Lost"
+    },
+    {
+      "id": 44,
+      "name": "Alice Wright",
+      "company": "Innova",
+      "email": "alice.wright@innova.com",
+      "source": "LinkedIn",
+      "score": 92,
+      "status": "Contacted"
+    },
+    {
+      "id": 45,
+      "name": "Thomas Thompson",
+      "company": "Foodies",
+      "email": "thomas.thompson@foodies.com",
+      "source": "Event",
+      "score": 79,
+      "status": "Lost"
+    },
+    {
+      "id": 46,
+      "name": "Emma Anderson",
+      "company": "NextGen",
+      "email": "emma.anderson@nextgen.com",
+      "source": "Event",
+      "score": 82,
+      "status": "Qualified"
+    },
+    {
+      "id": 47,
+      "name": "Liam Nguyen",
+      "company": "SafeBank",
+      "email": "liam.nguyen@safebank.com",
+      "source": "Event",
+      "score": 68,
+      "status": "New"
+    },
+    {
+      "id": 48,
+      "name": "Daniel Scott",
+      "company": "EduGlobal",
+      "email": "daniel.scott@eduglobal.com",
+      "source": "Cold Call",
+      "score": 63,
+      "status": "Contacted"
+    },
+    {
+      "id": 49,
+      "name": "Quincy Wilson",
+      "company": "FinServe",
+      "email": "quincy.wilson@finserve.com",
+      "source": "Email Campaign",
+      "score": 73,
+      "status": "Qualified"
+    },
+    {
+      "id": 50,
+      "name": "Rachel Lewis",
+      "company": "SmartHome",
+      "email": "rachel.lewis@smarthome.com",
+      "source": "Cold Call",
+      "score": 73,
+      "status": "Qualified"
+    },
+    {
+      "id": 51,
+      "name": "Rachel Martinez",
+      "company": "EduGlobal",
+      "email": "rachel.martinez@eduglobal.com",
+      "source": "Website",
+      "score": 74,
+      "status": "Contacted"
+    },
+    {
+      "id": 52,
+      "name": "Uma Lewis",
+      "company": "SmartHome",
+      "email": "uma.lewis@smarthome.com",
+      "source": "Referral",
+      "score": 54,
+      "status": "Contacted"
+    },
+    {
+      "id": 53,
+      "name": "Xavier Thompson",
+      "company": "CloudNet",
+      "email": "xavier.thompson@cloudnet.com",
+      "source": "Event",
+      "score": 91,
+      "status": "Contacted"
+    },
+    {
+      "id": 54,
+      "name": "Uma Thompson",
+      "company": "TravelCo",
+      "email": "uma.thompson@travelco.com",
+      "source": "Email Campaign",
+      "score": 83,
+      "status": "Contacted"
+    },
+    {
+      "id": 55,
+      "name": "Paul Clark",
+      "company": "TechCorp",
+      "email": "paul.clark@techcorp.com",
+      "source": "Cold Call",
+      "score": 99,
+      "status": "New"
+    },
+    {
+      "id": 56,
+      "name": "Emma Scott",
+      "company": "DataWorks",
+      "email": "emma.scott@dataworks.com",
+      "source": "Cold Call",
+      "score": 74,
+      "status": "New"
+    },
+    {
+      "id": 57,
+      "name": "Alice Adams",
+      "company": "BuildRight",
+      "email": "alice.adams@buildright.com",
+      "source": "Referral",
+      "score": 64,
+      "status": "Contacted"
+    },
+    {
+      "id": 58,
+      "name": "Isabella Nguyen",
+      "company": "RetailNow",
+      "email": "isabella.nguyen@retailnow.com",
+      "source": "Cold Call",
+      "score": 97,
+      "status": "Qualified"
+    },
+    {
+      "id": 59,
+      "name": "Karen Young",
+      "company": "Innova",
+      "email": "karen.young@innova.com",
+      "source": "Referral",
+      "score": 72,
+      "status": "Lost"
+    },
+    {
+      "id": 60,
+      "name": "Rachel Brown",
+      "company": "Sportify",
+      "email": "rachel.brown@sportify.com",
+      "source": "Website",
+      "score": 58,
+      "status": "Contacted"
+    },
+    {
+      "id": 61,
+      "name": "Emma Rodriguez",
+      "company": "AutoDrive",
+      "email": "emma.rodriguez@autodrive.com",
+      "source": "Event",
+      "score": 84,
+      "status": "Contacted"
+    },
+    {
+      "id": 62,
+      "name": "Wendy Adams",
+      "company": "SafeBank",
+      "email": "wendy.adams@safebank.com",
+      "source": "Cold Call",
+      "score": 96,
+      "status": "New"
+    },
+    {
+      "id": 63,
+      "name": "Olivia Torres",
+      "company": "SmartHome",
+      "email": "olivia.torres@smarthome.com",
+      "source": "LinkedIn",
+      "score": 65,
+      "status": "New"
+    },
+    {
+      "id": 64,
+      "name": "Henry Wilson",
+      "company": "Foodies",
+      "email": "henry.wilson@foodies.com",
+      "source": "LinkedIn",
+      "score": 54,
+      "status": "Contacted"
+    },
+    {
+      "id": 65,
+      "name": "Noah Hall",
+      "company": "RetailNow",
+      "email": "noah.hall@retailnow.com",
+      "source": "LinkedIn",
+      "score": 83,
+      "status": "New"
+    },
+    {
+      "id": 66,
+      "name": "Isabella Green",
+      "company": "HealthPlus",
+      "email": "isabella.green@healthplus.com",
+      "source": "Email Campaign",
+      "score": 51,
+      "status": "Qualified"
+    },
+    {
+      "id": 67,
+      "name": "Quincy King",
+      "company": "AgriSmart",
+      "email": "quincy.king@agrismart.com",
+      "source": "Referral",
+      "score": 67,
+      "status": "Qualified"
+    },
+    {
+      "id": 68,
+      "name": "Frank Garcia",
+      "company": "TechCorp",
+      "email": "frank.garcia@techcorp.com",
+      "source": "Event",
+      "score": 92,
+      "status": "Contacted"
+    },
+    {
+      "id": 69,
+      "name": "Olivia Garcia",
+      "company": "EcoLiving",
+      "email": "olivia.garcia@ecoliving.com",
+      "source": "Cold Call",
+      "score": 86,
+      "status": "Lost"
+    },
+    {
+      "id": 70,
+      "name": "Henry Lopez",
+      "company": "SafeBank",
+      "email": "henry.lopez@safebank.com",
+      "source": "Email Campaign",
+      "score": 64,
+      "status": "New"
+    },
+    {
+      "id": 71,
+      "name": "Victor Brown",
+      "company": "BrightFuture",
+      "email": "victor.brown@brightfuture.com",
+      "source": "Referral",
+      "score": 51,
+      "status": "New"
+    },
+    {
+      "id": 72,
+      "name": "Carla Walker",
+      "company": "EcoLiving",
+      "email": "carla.walker@ecoliving.com",
+      "source": "Email Campaign",
+      "score": 52,
+      "status": "Qualified"
+    },
+    {
+      "id": 73,
+      "name": "Brian Nguyen",
+      "company": "BuildRight",
+      "email": "brian.nguyen@buildright.com",
+      "source": "Email Campaign",
+      "score": 71,
+      "status": "New"
+    },
+    {
+      "id": 74,
+      "name": "Paul Thompson",
+      "company": "AgriSmart",
+      "email": "paul.thompson@agrismart.com",
+      "source": "Event",
+      "score": 91,
+      "status": "Lost"
+    },
+    {
+      "id": 75,
+      "name": "Daniel Adams",
+      "company": "AgriSmart",
+      "email": "daniel.adams@agrismart.com",
+      "source": "LinkedIn",
+      "score": 75,
+      "status": "New"
+    },
+    {
+      "id": 76,
+      "name": "Mia Lopez",
+      "company": "Sportify",
+      "email": "mia.lopez@sportify.com",
+      "source": "Cold Call",
+      "score": 88,
+      "status": "Lost"
+    },
+    {
+      "id": 77,
+      "name": "Paul Wright",
+      "company": "SmartHome",
+      "email": "paul.wright@smarthome.com",
+      "source": "Event",
+      "score": 76,
+      "status": "Qualified"
+    },
+    {
+      "id": 78,
+      "name": "Noah Hill",
+      "company": "BuildRight",
+      "email": "noah.hill@buildright.com",
+      "source": "Email Campaign",
+      "score": 69,
+      "status": "Lost"
+    },
+    {
+      "id": 79,
+      "name": "Carla King",
+      "company": "Innova",
+      "email": "carla.king@innova.com",
+      "source": "Website",
+      "score": 53,
+      "status": "Qualified"
+    },
+    {
+      "id": 80,
+      "name": "Quincy Brown",
+      "company": "TechCorp",
+      "email": "quincy.brown@techcorp.com",
+      "source": "Cold Call",
+      "score": 63,
+      "status": "Qualified"
+    },
+    {
+      "id": 81,
+      "name": "Yara Brown",
+      "company": "EduGlobal",
+      "email": "yara.brown@eduglobal.com",
+      "source": "Cold Call",
+      "score": 79,
+      "status": "Lost"
+    },
+    {
+      "id": 82,
+      "name": "Victor Allen",
+      "company": "BuildRight",
+      "email": "victor.allen@buildright.com",
+      "source": "Website",
+      "score": 98,
+      "status": "Lost"
+    },
+    {
+      "id": 83,
+      "name": "Victor Thompson",
+      "company": "NextGen",
+      "email": "victor.thompson@nextgen.com",
+      "source": "LinkedIn",
+      "score": 92,
+      "status": "Lost"
+    },
+    {
+      "id": 84,
+      "name": "Noah Allen",
+      "company": "NextGen",
+      "email": "noah.allen@nextgen.com",
+      "source": "LinkedIn",
+      "score": 50,
+      "status": "Qualified"
+    },
+    {
+      "id": 85,
+      "name": "Victor Johnson",
+      "company": "NextGen",
+      "email": "victor.johnson@nextgen.com",
+      "source": "Email Campaign",
+      "score": 70,
+      "status": "Contacted"
+    },
+    {
+      "id": 86,
+      "name": "Brian Young",
+      "company": "DataWorks",
+      "email": "brian.young@dataworks.com",
+      "source": "Event",
+      "score": 59,
+      "status": "Contacted"
+    },
+    {
+      "id": 87,
+      "name": "Uma Mendes",
+      "company": "TechCorp",
+      "email": "uma.mendes@techcorp.com",
+      "source": "LinkedIn",
+      "score": 56,
+      "status": "Qualified"
+    },
+    {
+      "id": 88,
+      "name": "Mia Lewis",
+      "company": "AutoDrive",
+      "email": "mia.lewis@autodrive.com",
+      "source": "Referral",
+      "score": 59,
+      "status": "New"
+    },
+    {
+      "id": 89,
+      "name": "Isabella Lopez",
+      "company": "Foodies",
+      "email": "isabella.lopez@foodies.com",
+      "source": "Cold Call",
+      "score": 98,
+      "status": "Qualified"
+    },
+    {
+      "id": 90,
+      "name": "Mia Brown",
+      "company": "RetailNow",
+      "email": "mia.brown@retailnow.com",
+      "source": "Cold Call",
+      "score": 57,
+      "status": "Contacted"
+    },
+    {
+      "id": 91,
+      "name": "Emma Wright",
+      "company": "RetailNow",
+      "email": "emma.wright@retailnow.com",
+      "source": "Website",
+      "score": 78,
+      "status": "Contacted"
+    },
+    {
+      "id": 92,
+      "name": "Isabella Smith",
+      "company": "CloudNet",
+      "email": "isabella.smith@cloudnet.com",
+      "source": "LinkedIn",
+      "score": 90,
+      "status": "Qualified"
+    },
+    {
+      "id": 93,
+      "name": "Noah Hall",
+      "company": "AgriSmart",
+      "email": "noah.hall@agrismart.com",
+      "source": "Event",
+      "score": 53,
+      "status": "New"
+    },
+    {
+      "id": 94,
+      "name": "Noah Anderson",
+      "company": "TechCorp",
+      "email": "noah.anderson@techcorp.com",
+      "source": "Website",
+      "score": 80,
+      "status": "Lost"
+    },
+    {
+      "id": 95,
+      "name": "Yara Smith",
+      "company": "Innova",
+      "email": "yara.smith@innova.com",
+      "source": "LinkedIn",
+      "score": 63,
+      "status": "Qualified"
+    },
+    {
+      "id": 96,
+      "name": "Grace Walker",
+      "company": "Foodies",
+      "email": "grace.walker@foodies.com",
+      "source": "Referral",
+      "score": 67,
+      "status": "New"
+    },
+    {
+      "id": 97,
+      "name": "Paul Lopez",
+      "company": "EcoLiving",
+      "email": "paul.lopez@ecoliving.com",
+      "source": "Referral",
+      "score": 68,
+      "status": "Contacted"
+    },
+    {
+      "id": 98,
+      "name": "Olivia Davis",
+      "company": "EduGlobal",
+      "email": "olivia.davis@eduglobal.com",
+      "source": "Website",
+      "score": 98,
+      "status": "Qualified"
+    },
+    {
+      "id": 99,
+      "name": "Alice Clark",
+      "company": "EcoLiving",
+      "email": "alice.clark@ecoliving.com",
+      "source": "Referral",
+      "score": 63,
+      "status": "Qualified"
+    },
+    {
+      "id": 100,
+      "name": "Noah Wilson",
+      "company": "NextGen",
+      "email": "noah.wilson@nextgen.com",
+      "source": "Event",
+      "score": 87,
+      "status": "Qualified"
+    }
+  ]

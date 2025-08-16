@@ -1,0 +1,12 @@
+{
+    "tailwindCSS.includeLanguages": {
+      "css": "tailwindcss",
+      "postcss": "tailwindcss",
+      "scss": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+      "strings": true
+    },
+    "editor.validate": true
+  }
+  
