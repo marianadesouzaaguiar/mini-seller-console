@@ -1,107 +1,109 @@
-🚀 Mini Seller Console
+# 📊 Mini Seller Console
 
-A lightweight React + Tailwind CSS console to manage leads and convert them into opportunities.
-Designed to demonstrate state management, optimistic updates, slide-over panels, and a responsive UI using local JSON data only.
+A sleek **React + Vite** dashboard for managing leads and opportunities with interactive features, **dark mode 🌑/🌞**, filters, sorting, **confetti 🎉 celebration**, and toast notifications 🔔.
 
-⚡ Features
+![Dark Mode Dashboard](src/assets/darkmode_dash.png)
 
-📊 Dashboard – summarizes total Leads and Opportunities
+---
 
-📋 LeadsPage – displays a list of leads with their status
+## 🚀 Features
 
-📝 LeadDetailPanel – sliding panel to edit email and status, and convert a lead into an opportunity
+🌑 **Dark & Light Mode Toggle** – switch themes anytime  
+🔍 **Search Leads** by Name or Company  
+📊 **Filter by Status**: New 🆕, Contacted 📞, Qualified ✅, Lost ❌  
+🔼🔽 **Sort by Score** (ascending / descending)  
+💼 **Opportunities Management** – convert unique leads to opportunities  
+🎉 **Confetti Animation** when a new opportunity is created  
+✅ **Toast Notifications** for saving and conversion actions (success & error)  
+🖱️ **Slide-over Panel** to edit lead details  
+⚡ **Responsive & Animated UI** using Framer Motion  
+🛠️ **Easy to Install & Run**
 
-💼 Opportunities – table of converted leads with ID, Name, Stage, Account Name, and optional Amount
+---
 
-🌐 Context API – manages global state for leads and opportunities
+## 🛠️ Installation
 
-🎨 Tailwind CSS – slide-in animation for LeadDetailPanel
-
-🌍 Navigation – powered by React Router
-
-⏳ Loading, empty, and error states – smooth UX for asynchronous data
-
-📱 Fully responsive – works from desktop to mobile
-
-🛠️ Tech Stack
-
-⚛️ React (v19.1.1)
-
-⚡ Vite
-
-🎨 Tailwind CSS
-
-📂 Local JSON as data source
-
-🌐 Context API for global state
-
-⏱️ Simulated latency with setTimeout
-
-🏁 Getting Started
-1️⃣ Clone the repo
-git clone https://github.com/yourusername/mini-seller-console.git
+```bash
+# Clone the repository
+git clone https://github.com/your-username/mini-seller-console.git
 cd mini-seller-console
 
-2️⃣ Install dependencies
+# Install dependencies
 npm install
+⚡ Running the Project
 
-3️⃣ Run the development server
+# Start the development server
 npm run dev
+Open http://localhost:5173 (or the Vite URL) in your browser.
 
+📝 Usage
+View Leads – All leads are displayed in the main dashboard
 
-Open http://localhost:5173 in your browser.
+Search & Filter – Use the search box and dropdowns to filter leads
 
-🗂️ Project Structure
+Edit Lead – Click on a lead to open the slide-over panel. Save changes with Save
+
+Convert to Opportunity – In the slide-over panel, click Convert
+
+✅ Shows toast: "New Opportunity Created!"
+
+🎉 Confetti animation triggered
+
+⚠️ If lead already exists as an opportunity: "This lead is already an opportunity!"
+
+Save Lead Changes – Toast appears: "Lead saved!"
+
+🧩 Components
+Dashboard.jsx – Main dashboard page with leads & opportunities tables
+
+LeadDetailPanel.jsx – Slide-over panel for lead details editing & conversion
+
+Toast.jsx – Toast notification component for success & error messages
+
+🎨 UI & Animations
+Framer Motion for smooth animations of rows & panels
+
+Canvas Confetti for celebratory effects 🎊
+
+TailwindCSS for responsive styling and dark mode support
+
+🔧 Context & State Management
+React Context (AppContext) manages:
+
+leads & opportunities
+
+selectedLead
+
+filters & search
+
+notifications & darkMode
+
+📂 Project Structure
+css
+Copy
+Edit
 mini-seller-console/
+│
 ├─ src/
-│  ├─ leads.json           # Local leads data
-│  ├─ App.jsx              # Main app component
-│  ├─ AppContext.jsx       # Global state provider
-│  ├─ main.jsx             # ReactDOM entry
-│  ├─ api.js               # Lead fetch/save simulation
-│  ├─ index.css            # Tailwind imports
-│  └─ components/          # React components
-│     ├─ LeadsList.jsx
-│     ├─ LeadDetailPanel.jsx
-│     ├─ Dashboard.jsx
-│     ├─ OpportunitiesTable.jsx
-│     └─ SlideOver.jsx
-├─ index.html
+│  ├─ assets/
+│  │  └─ darkmode_dash.png
+│  ├─ components/
+│  │  ├─ LeadDetailPanel.jsx
+│  │  └─ Toast.jsx
+│  ├─ pages/
+│  │  └─ Dashboard.jsx
+│  ├─ AppContext.jsx
+│  └─ main.jsx
+│
 ├─ package.json
-├─ tailwind.config.js
-└─ vite.config.js
+├─ vite.config.js
+└─ README.md
 
-🔮 Future Improvements
-
-🔐 Authentication/Login – protect pages and personalize data per user
-
-🌐 Backend Integration – connect to a real REST API instead of local JSON
-
-🔍 Advanced Lead Search & Filters – improve filtering and sorting capabilities
-
-📄 Data Export – export leads and opportunities as PDF or CSV
-
+💡 Future Improvements
+🔐 User authentication & role-based access
+📈 Export data to PDF / CSV
+📱 Enhanced responsive design for mobile & tablet
 ✅ Unit and integration tests
 
-📝 LeadDetailPanel Overview
-
-Edit Email and Status – update lead information inline
-
-Email Validation – ensures correct email format before saving
-
-Save Button – updates context with optimistic UI
-
-Convert to Opportunity – quickly create new opportunities from a lead
-
-Sliding Panel – smooth slide-in animation for better UX
-
-📄 Example Lead (leads.json)
-{
-  "id": "1",
-  "name": "John Doe",
-  "company": "Acme Inc",
-  "email": "john.doe@acme.com",
-  "source": "LinkedIn",
-  "score": 85,
-  "status": "New"
-}
+🖤 Credits
+Made with ❤️ by Mariana Aguiar – FrontEnd Developer using React, Vite, TailwindCSS, Framer Motion, and canvas-confetti. 🎨🚀
