@@ -1,83 +1,99 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { fetchLeads, saveLeadPatch } from "./api";
+import confetti from "canvas-confetti";
+import leadsData from "./leads.json";
 
 const AppContext = createContext();
 
-export const AppProvider = ({ children }) => {
-  const [leads, setLeads] = useState([]);
+export function AppProvider({ children }) {
+  const [leads, setLeads] = useState(leadsData);
   const [opportunities, setOpportunities] = useState([]);
+
   const [selectedLead, setSelectedLead] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState(null);
+  const [notificationType, setNotificationType] = useState("success"); // success, error, warning
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [sortDesc, setSortDesc] = useState(true);
+
   const [saving, setSaving] = useState(false);
-  const [saveError, setSaveError] = useState("");
-  const [notification, setNotification] = useState("");
-  const [search, setSearch] = useState(localStorage.getItem("search") || "");
-  const [statusFilter, setStatusFilter] = useState(
-    localStorage.getItem("statusFilter") || ""
-  );
-  const [sortDesc, setSortDesc] = useState(
-    localStorage.getItem("sortDesc") === "false" ? false : true
-  );
+  const [saveError, setSaveError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // Limpa notification automaticamente
   useEffect(() => {
-    fetchLeads()
-      .then(setLeads)
-      .catch((err) => {
-        setSaveError(err.message);
-        setNotification(`❌ ${err.message}`);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
 
-  useEffect(() => {
-    localStorage.setItem("search", search);
-    localStorage.setItem("statusFilter", statusFilter);
-    localStorage.setItem("sortDesc", sortDesc);
-  }, [search, statusFilter, sortDesc]);
-
-  const showNotification = (message) => setNotification(message);
-
-  const handleSaveLead = async (patch) => {
-    if (!selectedLead) return;
+  // Salvar lead editado
+  const handleSaveLead = (updatedLead) => {
     setSaving(true);
-    const original = { ...selectedLead };
-    setLeads((prev) =>
-      prev.map((l) => (l.id === selectedLead.id ? { ...l, ...patch } : l))
-    );
     try {
-      await saveLeadPatch(selectedLead.id, patch);
-      setSelectedLead((prev) => ({ ...prev, ...patch }));
-      showNotification(`✅ Lead salvo com sucesso!`);
-    } catch (err) {
       setLeads((prev) =>
-        prev.map((l) => (l.id === selectedLead.id ? original : l))
+        prev.map((lead) => (lead.id === updatedLead.id ? { ...updatedLead } : lead))
       );
-      const msg = err.message || "Falha ao salvar lead";
-      setSaveError(msg);
-      showNotification(`❌ ${msg}`);
-    } finally {
+      setNotification("✅ Lead saved!");
+      setNotificationType("success");
+      setSaving(false);
+    } catch (err) {
+      setSaveError("❌ Failed to save lead.");
+      setNotification("❌ Failed to save lead.");
+      setNotificationType("error");
       setSaving(false);
     }
   };
 
+  // Converter lead em oportunidade
   const handleConvertToOpportunity = (lead) => {
-    const exists = opportunities.some(
-      (o) => o.accountName === lead.company && o.name === lead.name
-    );
-    if (exists) {
-      showNotification(`⚠️ Oportunidade já existe para ${lead.name}`);
+    if (opportunities.some((o) => o.id === lead.id)) {
+      setNotification("⚠️ This lead is already an opportunity!");
+      setNotificationType("warning");
       return;
     }
-    const newOpp = {
-      id: "O-" + Date.now(),
+
+    const newOpportunity = {
+      id: lead.id,
       name: lead.name,
       stage: lead.status,
       amount: lead.score * 1000, 
       accountName: lead.company,
     };
-    setOpportunities((prev) => [newOpp, ...prev]);
-    showNotification(`✅ Oportunidade criada para ${lead.name}`);
+
+    setOpportunities((prev) => [...prev, newOpportunity]);
+    setNotification("🎉 New Opportunity Created!");
+    setNotificationType("success");
+
+    // Confetti discreto
+    confetti({
+      particleCount: 25,
+      spread: 40,
+      origin: { y: 0.3 },
+      colors: ["#FFD700", "#FFC107", "#FFF59D"],
+      scalar: 0.8,
+    });
   };
+
+  // Limite de score a 100 e destaque visual
+  useEffect(() => {
+    setLeads((prevLeads) =>
+      prevLeads.map((lead) => {
+        if (lead.score > 100) {
+          confetti({
+            particleCount: 25,
+            spread: 40,
+            origin: { y: 0.3 },
+            colors: ["#FFD700", "#FFC107", "#FFF59D"],
+            scalar: 0.8,
+          });
+          return { ...lead, score: 100, maxScore: true };
+        }
+        return { ...lead, maxScore: lead.score === 100 };
+      })
+    );
+  }, [leads]);
 
   return (
     <AppContext.Provider
@@ -87,24 +103,27 @@ export const AppProvider = ({ children }) => {
         selectedLead,
         setSelectedLead,
         handleSaveLead,
-        handleConvertToOpportunity,
         saving,
         saveError,
+        loading,
+        error,
+        handleConvertToOpportunity,
+        notification,
+        setNotification,
+        notificationType,
         search,
         setSearch,
         statusFilter,
         setStatusFilter,
         sortDesc,
         setSortDesc,
-        loading,
-        notification,
-        setNotification,
-        showNotification,
       }}
     >
       {children}
     </AppContext.Provider>
   );
-};
+}
 
-export const useAppContext = () => useContext(AppContext);
+export function useAppContext() {
+  return useContext(AppContext);
+}

@@ -3,27 +3,26 @@ import { useAppContext } from "../AppContext";
 import LeadDetailPanel from "../components/LeadDetailPanel";
 import Toast from "../components/Toast";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaTrophy } from "react-icons/fa";
 
 export default function Dashboard() {
   const {
     leads,
-    loading,
-    error,
+    opportunities,
     selectedLead,
     setSelectedLead,
     handleSaveLead,
     saving,
     saveError,
-    opportunities,
     handleConvertToOpportunity,
+    notification,
+    notificationType,
     search,
     setSearch,
     statusFilter,
     setStatusFilter,
     sortDesc,
     setSortDesc,
-    notification,
-    setNotification,
   } = useAppContext();
 
   const [darkMode, setDarkMode] = useState(true);
@@ -74,7 +73,7 @@ export default function Dashboard() {
       </button>
 
       {/* Toast */}
-      <Toast message={notification} onClose={() => setNotification(null)} />
+      <Toast message={notification} type={notificationType} onClose={() => setNotification(null)} />
 
       {/* Header */}
       <h1 className="text-5xl font-bold mb-6">📊 Dashboard</h1>
@@ -111,55 +110,53 @@ export default function Dashboard() {
 
       {/* Leads Table */}
       <div className="overflow-x-auto mb-8">
-        {loading && <p>Loading leads...</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        {!loading && !error && (
-          <table className={`min-w-full rounded-xl shadow-md overflow-hidden ${darkMode ? "bg-gray-800" : "bg-white"} transition-colors duration-500`}>
-            <thead className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-indigo-100 text-indigo-800"}`}>
-              <tr>
-                <th className="px-4 py-3 text-left">ID</th>
-                <th className="px-4 py-3 text-left">Name</th>
-                <th className="px-4 py-3 text-left">Company</th>
-                <th className="px-4 py-3 text-left">Email</th>
-                <th className="px-4 py-3 text-left">Source</th>
-                <th className="px-4 py-3 text-left">Score</th>
-                <th className="px-4 py-3 text-left">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <AnimatePresence>
-                {filteredLeads.map((lead, index) => (
-                  <motion.tr
-                    key={lead.id}
-                    className={`cursor-pointer transition-all duration-200 ${
-                      selectedLead?.id === lead.id ? "shadow-lg animate-pulse" : "hover:scale-102"
-                    }`}
-                    onClick={() => setSelectedLead(lead)}
-                    variants={rowAnimation}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    custom={index}
-                    layout
-                  >
-                    <td className="px-4 py-2">{lead.id}</td>
-                    <td className="px-4 py-2">{lead.name}</td>
-                    <td className="px-4 py-2">{lead.company}</td>
-                    <td className="px-4 py-2">{lead.email}</td>
-                    <td className="px-4 py-2">{lead.source}</td>
-                    <td className="px-4 py-2">{lead.score}</td>
-                    <td className={`px-4 py-2 rounded-full text-center ${getStatusColor(lead.status)} transition-colors duration-500`}>
-                      {lead.status}
-                    </td>
-                  </motion.tr>
-                ))}
-              </AnimatePresence>
-            </tbody>
-          </table>
-        )}
+        <table className={`min-w-full rounded-xl shadow-md overflow-hidden ${darkMode ? "bg-gray-800" : "bg-white"} transition-colors duration-500`}>
+          <thead className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-indigo-100 text-indigo-800"}`}>
+            <tr>
+              <th className="px-4 py-3 text-left">ID</th>
+              <th className="px-4 py-3 text-left">Name</th>
+              <th className="px-4 py-3 text-left">Company</th>
+              <th className="px-4 py-3 text-left">Email</th>
+              <th className="px-4 py-3 text-left">Source</th>
+              <th className="px-4 py-3 text-left">Score</th>
+              <th className="px-4 py-3 text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <AnimatePresence>
+              {filteredLeads.map((lead, index) => (
+                <motion.tr
+                  key={lead.id}
+                  className={`cursor-pointer transition-all duration-200 ${
+                    selectedLead?.id === lead.id ? "shadow-lg animate-pulse" : darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                  }`}
+                  onClick={() => setSelectedLead(lead)}
+                  variants={rowAnimation}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  custom={index}
+                  layout
+                >
+                  <td className="px-4 py-2">{lead.id}</td>
+                  <td className="px-4 py-2">{lead.name}</td>
+                  <td className="px-4 py-2">{lead.company}</td>
+                  <td className="px-4 py-2">{lead.email}</td>
+                  <td className="px-4 py-2">{lead.source}</td>
+                  <td className={`px-4 py-2 ${lead.maxScore ? "text-yellow-400 font-bold flex items-center gap-1" : ""}`}>
+                    {lead.score} {lead.maxScore && <FaTrophy />}
+                  </td>
+                  <td className={`px-4 py-2 rounded-full text-center ${getStatusColor(lead.status)} transition-colors duration-500`}>
+                    {lead.status}
+                  </td>
+                </motion.tr>
+              ))}
+            </AnimatePresence>
+          </tbody>
+        </table>
       </div>
 
-      {/* Slide-over */}
+      {/* Slide-over Panel */}
       {selectedLead && (
         <LeadDetailPanel
           lead={selectedLead}
@@ -195,7 +192,9 @@ export default function Dashboard() {
                   {opportunities.map((o, index) => (
                     <motion.tr
                       key={o.id}
-                      className="transition-all duration-200 hover:scale-102 cursor-pointer"
+                      className={`transition-all duration-200 cursor-pointer ${
+                        darkMode ? "hover:bg-gray-700" : "hover:bg-gray-200"
+                      }`}
                       variants={rowAnimation}
                       initial="hidden"
                       animate="visible"
@@ -217,7 +216,7 @@ export default function Dashboard() {
       </div>
 
       <div className="mt-6 text-lg font-medium text-green-400">
-        Keep track of your opportunities here. Only unique leads can be converted.
+        📌 Keep track of your opportunities here. Only unique leads can be converted.
       </div>
     </div>
   );

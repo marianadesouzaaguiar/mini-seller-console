@@ -79,9 +79,7 @@ filters & search
 notifications & darkMode
 
 📂 Project Structure
-css
-Copy
-Edit
+
 mini-seller-console/
 │
 ├─ src/

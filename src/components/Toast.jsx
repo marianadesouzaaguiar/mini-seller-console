@@ -1,29 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Toast({ message, type = "green", duration = 2500, onClose }) {
-  const [show, setShow] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShow(false);
-      onClose && onClose();
-    }, duration);
-    return () => clearTimeout(timer);
-  }, [duration, onClose]);
-
-  const colors = type === "red" ? "bg-red-600 text-white" : "bg-green-600 text-white";
-
+export default function Toast({ message, onClose }) {
   return (
     <AnimatePresence>
-      {show && (
+      {message && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className={`fixed top-5 right-5 px-4 py-2 rounded shadow ${colors} z-50`}
+          transition={{ duration: 0.3 }}
+          className="fixed top-6 right-6 z-50 max-w-xs bg-gray-800 text-white px-5 py-3 rounded-lg shadow-lg border-l-4 border-indigo-400 flex items-center justify-between gap-2"
         >
-          {message}
+          <span className="text-sm">{message}</span>
+          <button
+            onClick={onClose}
+            className="text-gray-300 hover:text-white transition"
+          >
+            ✖️
+          </button>
         </motion.div>
       )}
     </AnimatePresence>
