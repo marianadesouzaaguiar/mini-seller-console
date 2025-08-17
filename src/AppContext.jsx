@@ -3,32 +3,41 @@ import { fetchLeads, saveLeadPatch } from "./api";
 
 const AppContext = createContext();
 
-export function AppProvider({ children }) {
+export const AppProvider = ({ children }) => {
   const [leads, setLeads] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [opportunities, setOpportunities] = useState([]);
   const [selectedLead, setSelectedLead] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
-  const [opportunities, setOpportunities] = useState([]);
+  const [search, setSearch] = useState(localStorage.getItem("search") || "");
+  const [statusFilter, setStatusFilter] = useState(
+    localStorage.getItem("statusFilter") || ""
+  );
+  const [sortDesc, setSortDesc] = useState(
+    localStorage.getItem("sortDesc") === "false" ? false : true
+  );
 
   useEffect(() => {
     fetchLeads()
       .then(setLeads)
-      .catch((err) => setError(err.message))
+      .catch((err) => setSaveError(err.message))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("search", search);
+    localStorage.setItem("statusFilter", statusFilter);
+    localStorage.setItem("sortDesc", sortDesc);
+  }, [search, statusFilter, sortDesc]);
 
   const handleSaveLead = async (patch) => {
     if (!selectedLead) return;
     setSaving(true);
-    setSaveError("");
     const original = { ...selectedLead };
-
     setLeads((prev) =>
       prev.map((l) => (l.id === selectedLead.id ? { ...l, ...patch } : l))
     );
-
     try {
       await saveLeadPatch(selectedLead.id, patch);
       setSelectedLead((prev) => ({ ...prev, ...patch }));
@@ -44,7 +53,7 @@ export function AppProvider({ children }) {
 
   const handleConvertToOpportunity = (lead) => {
     const newOpp = {
-      id: "O-" + Math.floor(Math.random() * 10000),
+      id: "O-" + Date.now(),
       name: lead.name,
       stage: lead.status,
       amount: "",
@@ -57,24 +66,25 @@ export function AppProvider({ children }) {
     <AppContext.Provider
       value={{
         leads,
-        loading,
-        error,
+        opportunities,
         selectedLead,
         setSelectedLead,
+        handleSaveLead,
+        handleConvertToOpportunity,
         saving,
         saveError,
-        handleSaveLead,
-        opportunities,
-        handleConvertToOpportunity,
+        search,
+        setSearch,
+        statusFilter,
+        setStatusFilter,
+        sortDesc,
+        setSortDesc,
+        loading,
       }}
     >
       {children}
     </AppContext.Provider>
   );
-}
+};
 
-export function useAppContext() {
-  const context = useContext(AppContext);
-  if (!context) throw new Error("useAppContext must be inside AppProvider");
-  return context;
-}
+export const useAppContext = () => useContext(AppContext);
