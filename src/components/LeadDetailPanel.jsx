@@ -1,95 +1,60 @@
-import React, { useState, useEffect } from "react";
-import { useAppContext } from "../AppContext";
+import React from "react";
 
-export default function LeadDetailPanel({ onClose }) {
-  const { selectedLead, handleSaveLead, handleConvertToOpportunity, saving, saveError } =
-    useAppContext();
-
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("");
-  const [emailError, setEmailError] = useState("");
-
-  // Atualiza campos sempre que selectedLead muda
-  useEffect(() => {
-    if (selectedLead) {
-      setEmail(selectedLead.email || "");
-      setStatus(selectedLead.status || "");
-      setEmailError("");
-    }
-  }, [selectedLead]);
-
-  if (!selectedLead) return null;
-
-  const validateEmail = (email) => /\S+@\S+\.\S+/.test(email);
-
-  const handleSave = () => {
-    if (!validateEmail(email)) {
-      setEmailError("Invalid email format");
-      return;
-    }
-    handleSaveLead({ email, status });
-  };
-
-  const handleConvert = () => {
-    handleConvertToOpportunity(selectedLead);
-    onClose(); // fecha painel após conversão
-  };
-
+export default function LeadDetailPanel({ lead, onSave, saving, error, onClose, onConvert }) {
   return (
-    <div className="fixed top-0 right-0 h-full w-96 bg-white shadow-lg p-6 overflow-y-auto z-50 animate-slide-in">
-      <h2 className="text-2xl font-bold mb-4">Lead Details</h2>
-
-      <div className="mb-4">
-        <label className="block font-semibold mb-1">Email</label>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 border rounded-md"
-        />
-        {emailError && <p className="text-red-600 text-sm mt-1">{emailError}</p>}
+    <div className="fixed inset-0 bg-black bg-opacity-30 flex justify-end z-50">
+      <div className="w-full sm:w-96 bg-white p-6 overflow-y-auto animate-slide-in">
+        <h2 className="text-xl font-semibold mb-4">Lead Details</h2>
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Name</label>
+          <p>{lead.name}</p>
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Email</label>
+          <input
+            type="email"
+            defaultValue={lead.email}
+            onChange={(e) => (lead.email = e.target.value)}
+            className="border w-full px-3 py-2 rounded"
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Status</label>
+          <select
+            defaultValue={lead.status}
+            onChange={(e) => (lead.status = e.target.value)}
+            className="border w-full px-3 py-2 rounded"
+          >
+            <option value="New">New</option>
+            <option value="Contacted">Contacted</option>
+            <option value="Qualified">Qualified</option>
+            <option value="Lost">Lost</option>
+          </select>
+        </div>
+        {error && <p className="text-red-600 mb-2">{error}</p>}
+        <div className="flex justify-between gap-2 mt-6">
+          <button
+            onClick={() => onSave(lead)}
+            disabled={saving}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+          >
+            {saving ? "Saving..." : "Save"}
+          </button>
+          <button
+            onClick={onConvert}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Convert to Opportunity
+          </button>
+          <button
+            variant="outline"
+            onClick={onClose}
+            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+        </div>
       </div>
-
-      <div className="mb-4">
-        <label className="block font-semibold mb-1">Status</label>
-        <select
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          className="w-full px-3 py-2 border rounded-md"
-        >
-          <option value="New">New</option>
-          <option value="Contacted">Contacted</option>
-          <option value="Qualified">Qualified</option>
-          <option value="Lost">Lost</option>
-        </select>
-      </div>
-
-      {saveError && <p className="text-red-600 mb-4">{saveError}</p>}
-
-      <div className="flex gap-2 mb-4">
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className={`px-4 py-2 rounded text-white ${saving ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"}`}
-        >
-          {saving ? "Saving..." : "Save"}
-        </button>
-        <button
-          onClick={onClose}
-          className="px-4 py-2 rounded border border-gray-300 hover:bg-gray-100"
-        >
-          Cancel
-        </button>
-      </div>
-
-      <hr className="my-4" />
-
-      <button
-        onClick={handleConvert}
-        className="w-full px-4 py-2 rounded bg-green-600 hover:bg-green-700 text-white"
-      >
-        Convert to Opportunity
-      </button>
     </div>
   );
 }

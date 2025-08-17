@@ -46,7 +46,7 @@ export function AppProvider({ children }) {
     const newOpp = {
       id: "O-" + Math.floor(Math.random() * 10000),
       name: lead.name,
-      stage: "Prospecting",
+      stage: lead.status,
       amount: "",
       accountName: lead.company,
     };

@@ -1,27 +1,21 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppProvider } from "./AppContext";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Dashboard from "./pages/Dashboard";
-import LeadsPage from "./pages/LeadsPage";
-import OpportunitiesPage from "./pages/OpportunitiesPage";
-import "./index.css";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 export default function App() {
   return (
     <AppProvider>
-      <Router>
-        <Header />
-        <main className="min-h-[80vh] p-4">
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/leads" element={<LeadsPage />} />
-            <Route path="/opportunities" element={<OpportunitiesPage />} />
-          </Routes>
+      <div className="flex flex-col min-h-screen">
+        <Navbar title="Painel de Leads e Oportunidades" />
+        <Header/>
+        <main className="flex-1 p-6 bg-gray-50">
+          <Dashboard />
         </main>
         <Footer />
-      </Router>
+      </div>
     </AppProvider>
   );
 }

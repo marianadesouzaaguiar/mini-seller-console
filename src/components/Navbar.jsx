@@ -1,15 +1,14 @@
-import React from 'react';
+// src/components/Navbar.js
+import React from "react";
 
-export default function Navbar({ setSidebarOpen }) {
+export default function Navbar() {
   return (
-    <header className="bg-white shadow p-4 flex justify-between items-center">
-      <button
-        className="md:hidden p-2 rounded bg-gray-200"
-        onClick={() => setSidebarOpen(prev => !prev)}
-      >
-        ☰
-      </button>
+    <header className="bg-white shadow px-6 py-4 flex justify-between items-center">
       <h1 className="text-xl font-bold">Mini Seller Console</h1>
+      <nav className="space-x-4">
+        <a href="/" className="text-gray-600 hover:text-gray-900">Dashboard</a>
+        <a href="/opportunities" className="text-gray-600 hover:text-gray-900">Opportunities</a>
+      </nav>
     </header>
   );
 }
