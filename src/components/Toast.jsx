@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Toast({ message, type = "green", duration = 2500 }) {
+export default function Toast({ message, type = "green", duration = 2500, onClose }) {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShow(false), duration);
+    const timer = setTimeout(() => {
+      setShow(false);
+      onClose && onClose();
+    }, duration);
     return () => clearTimeout(timer);
-  }, [duration]);
+  }, [duration, onClose]);
 
   const colors = type === "red" ? "bg-red-600 text-white" : "bg-green-600 text-white";
 

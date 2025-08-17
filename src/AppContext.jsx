@@ -72,7 +72,7 @@ export const AppProvider = ({ children }) => {
       id: "O-" + Date.now(),
       name: lead.name,
       stage: lead.status,
-      amount: lead.score * 1000, // exemplo de valor
+      amount: lead.score * 1000, 
       accountName: lead.company,
     };
     setOpportunities((prev) => [newOpp, ...prev]);
