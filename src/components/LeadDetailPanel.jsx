@@ -1,88 +1,58 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-export default function LeadDetailPanel({
-  lead,
-  onSave,
-  onClose,
-  saving,
-  error,
-  onConvert,
-}) {
-  const [editedLead, setEditedLead] = useState({ ...lead });
+export default function LeadDetailPanel({ lead, onSave, onClose, saving, error, onConvert }) {
+  const [email, setEmail] = useState(lead.email);
+  const [status, setStatus] = useState(lead.status);
   const [emailError, setEmailError] = useState("");
 
-  useEffect(() => {
-    setEditedLead(lead);
-    setEmailError("");
-  }, [lead]);
-
-  const handleChange = (field, value) => {
-    setEditedLead((prev) => ({ ...prev, [field]: value }));
+  const validateEmail = (value) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(value);
   };
 
-  const handleSaveClick = async () => {
-    // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(editedLead.email)) {
-      setEmailError("Please enter a valid email address");
+  const handleSave = async () => {
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email");
       return;
     }
-    setEmailError("");
-    await onSave(editedLead);
-    onClose(); // Close SlideOver after successful save
-  };
-
-  const handleConvertClick = () => {
-    onConvert(); // Handles converting lead to opportunity
-    onClose();   // Close SlideOver
+    await onSave({ email, status });
+    onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black/30 flex justify-end z-50">
-      <div className="bg-white w-full md:w-1/3 p-6 overflow-auto shadow-lg">
-        <h2 className="text-xl font-semibold mb-4">Edit Lead</h2>
-
-        <div className="mb-2">
-          <label className="block font-medium">Name</label>
-          <input
-            type="text"
-            value={editedLead.name}
-            onChange={(e) => handleChange("name", e.target.value)}
-            className="border px-2 py-1 rounded w-full"
-          />
+    <div className="fixed inset-0 bg-black/30 z-40 flex justify-end">
+      <div className="bg-white w-full md:w-1/3 h-full p-6 shadow-lg overflow-y-auto relative">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          ✖
+        </button>
+        <h2 className="text-xl font-bold mb-4">Edit Lead</h2>
+        <div className="mb-4">
+          <label className="block font-semibold">Name</label>
+          <p>{lead.name}</p>
         </div>
-
-        <div className="mb-2 relative">
-          <label className="block font-medium">Email</label>
+        <div className="mb-4">
+          <label className="block font-semibold">Company</label>
+          <p>{lead.company}</p>
+        </div>
+        <div className="mb-4">
+          <label className="block font-semibold">Email</label>
           <input
             type="email"
-            value={editedLead.email}
-            onChange={(e) => handleChange("email", e.target.value)}
-            className={`border px-2 py-1 rounded w-full ${
-              emailError ? "border-red-500" : ""
-            }`}
+            className="border px-2 py-1 w-full rounded"
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
           />
-          {emailError && (
-            <p className="text-red-600 text-sm mt-1">{emailError}</p>
-          )}
+          {emailError && <p className="text-red-600 mt-1">{emailError}</p>}
         </div>
-
-        <div className="mb-2">
-          <label className="block font-medium">Company</label>
-          <input
-            type="text"
-            value={editedLead.company}
-            onChange={(e) => handleChange("company", e.target.value)}
-            className="border px-2 py-1 rounded w-full"
-          />
-        </div>
-
         <div className="mb-4">
-          <label className="block font-medium">Status</label>
+          <label className="block font-semibold">Status</label>
           <select
-            value={editedLead.status}
-            onChange={(e) => handleChange("status", e.target.value)}
-            className="border px-2 py-1 rounded w-full"
+            className="border px-2 py-1 w-full rounded"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
           >
             <option value="New">New</option>
             <option value="Contacted">Contacted</option>
@@ -91,31 +61,28 @@ export default function LeadDetailPanel({
           </select>
         </div>
 
-        {error && <p className="text-red-600 mb-2">{error}</p>}
-
-        <div className="flex justify-between">
+        <div className="flex justify-end gap-2 mt-6">
+          <button
+            onClick={onConvert}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Convert
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          >
+            {saving ? "Saving..." : "Save"}
+          </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
           >
             Cancel
           </button>
-          <div className="flex gap-2">
-            <button
-              onClick={handleSaveClick}
-              disabled={saving}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-            >
-              {saving ? "Saving..." : "Save"}
-            </button>
-            <button
-              onClick={handleConvertClick}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-            >
-              Convert to Opportunity
-            </button>
-          </div>
         </div>
+        {error && <p className="text-red-600 mt-2">{error}</p>}
       </div>
     </div>
   );

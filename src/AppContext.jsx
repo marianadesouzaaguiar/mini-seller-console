@@ -10,6 +10,7 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [notification, setNotification] = useState("");
   const [search, setSearch] = useState(localStorage.getItem("search") || "");
   const [statusFilter, setStatusFilter] = useState(
     localStorage.getItem("statusFilter") || ""
@@ -21,7 +22,10 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     fetchLeads()
       .then(setLeads)
-      .catch((err) => setSaveError(err.message))
+      .catch((err) => {
+        setSaveError(err.message);
+        setNotification(`❌ ${err.message}`);
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -30,6 +34,8 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem("statusFilter", statusFilter);
     localStorage.setItem("sortDesc", sortDesc);
   }, [search, statusFilter, sortDesc]);
+
+  const showNotification = (message) => setNotification(message);
 
   const handleSaveLead = async (patch) => {
     if (!selectedLead) return;
@@ -41,17 +47,27 @@ export const AppProvider = ({ children }) => {
     try {
       await saveLeadPatch(selectedLead.id, patch);
       setSelectedLead((prev) => ({ ...prev, ...patch }));
+      showNotification(`✅ Lead salvo com sucesso!`);
     } catch (err) {
       setLeads((prev) =>
         prev.map((l) => (l.id === selectedLead.id ? original : l))
       );
-      setSaveError(err.message || "Failed to save lead");
+      const msg = err.message || "Falha ao salvar lead";
+      setSaveError(msg);
+      showNotification(`❌ ${msg}`);
     } finally {
       setSaving(false);
     }
   };
 
   const handleConvertToOpportunity = (lead) => {
+    const exists = opportunities.some(
+      (o) => o.accountName === lead.company && o.name === lead.name
+    );
+    if (exists) {
+      showNotification(`⚠️ Oportunidade já existe para ${lead.name}`);
+      return;
+    }
     const newOpp = {
       id: "O-" + Date.now(),
       name: lead.name,
@@ -60,6 +76,7 @@ export const AppProvider = ({ children }) => {
       accountName: lead.company,
     };
     setOpportunities((prev) => [newOpp, ...prev]);
+    showNotification(`✅ Oportunidade criada para ${lead.name}`);
   };
 
   return (
@@ -80,6 +97,9 @@ export const AppProvider = ({ children }) => {
         sortDesc,
         setSortDesc,
         loading,
+        notification,
+        setNotification,
+        showNotification,
       }}
     >
       {children}
