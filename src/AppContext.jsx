@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import leadsData from "./leads.json";
-import { saveLeadPatch } from "./api";
-import Confetti from "react-confetti";
+import { fetchLeads, saveLeadPatch } from "./api";
 
 const AppContext = createContext();
 
@@ -12,19 +10,23 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
+  const [notification, setNotification] = useState("");
   const [search, setSearch] = useState(localStorage.getItem("search") || "");
-  const [statusFilter, setStatusFilter] = useState(localStorage.getItem("statusFilter") || "");
-  const [sortDesc, setSortDesc] = useState(localStorage.getItem("sortDesc") !== "false");
-  const [notification, setNotification] = useState(null);
-  const [showConfetti, setShowConfetti] = useState(false);
+  const [statusFilter, setStatusFilter] = useState(
+    localStorage.getItem("statusFilter") || ""
+  );
+  const [sortDesc, setSortDesc] = useState(
+    localStorage.getItem("sortDesc") === "false" ? false : true
+  );
 
   useEffect(() => {
-    // Simulando fetch de leads
-    setLoading(true);
-    setTimeout(() => {
-      setLeads(leadsData);
-      setLoading(false);
-    }, 500);
+    fetchLeads()
+      .then(setLeads)
+      .catch((err) => {
+        setSaveError(err.message);
+        setNotification(`❌ ${err.message}`);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -32,6 +34,8 @@ export const AppProvider = ({ children }) => {
     localStorage.setItem("statusFilter", statusFilter);
     localStorage.setItem("sortDesc", sortDesc);
   }, [search, statusFilter, sortDesc]);
+
+  const showNotification = (message) => setNotification(message);
 
   const handleSaveLead = async (patch) => {
     if (!selectedLead) return;
@@ -43,41 +47,36 @@ export const AppProvider = ({ children }) => {
     try {
       await saveLeadPatch(selectedLead.id, patch);
       setSelectedLead((prev) => ({ ...prev, ...patch }));
-      setNotification("Lead saved successfully!");
+      showNotification(`✅ Lead salvo com sucesso!`);
     } catch (err) {
       setLeads((prev) =>
         prev.map((l) => (l.id === selectedLead.id ? original : l))
       );
-      setSaveError(err.message || "Failed to save lead");
-      setNotification("Error saving lead!");
+      const msg = err.message || "Falha ao salvar lead";
+      setSaveError(msg);
+      showNotification(`❌ ${msg}`);
     } finally {
       setSaving(false);
-      setTimeout(() => setNotification(null), 3000);
     }
   };
 
   const handleConvertToOpportunity = (lead) => {
-    // Evita duplicação
-    if (opportunities.find((o) => o.name === lead.name && o.accountName === lead.company)) {
-      setNotification("Opportunity already exists!");
-      setTimeout(() => setNotification(null), 3000);
+    const exists = opportunities.some(
+      (o) => o.accountName === lead.company && o.name === lead.name
+    );
+    if (exists) {
+      showNotification(`⚠️ Oportunidade já existe para ${lead.name}`);
       return;
     }
-
     const newOpp = {
       id: "O-" + Date.now(),
       name: lead.name,
       stage: lead.status,
-      amount: lead.score * 1000,
+      amount: lead.score * 1000, // exemplo de valor
       accountName: lead.company,
     };
-
     setOpportunities((prev) => [newOpp, ...prev]);
-    setNotification("Opportunity created!");
-    setShowConfetti(true);
-
-    setTimeout(() => setShowConfetti(false), 3000);
-    setTimeout(() => setNotification(null), 3000);
+    showNotification(`✅ Oportunidade criada para ${lead.name}`);
   };
 
   return (
@@ -100,10 +99,10 @@ export const AppProvider = ({ children }) => {
         loading,
         notification,
         setNotification,
+        showNotification,
       }}
     >
       {children}
-      {showConfetti && <Confetti recycle={false} numberOfPieces={200} />}
     </AppContext.Provider>
   );
 };
