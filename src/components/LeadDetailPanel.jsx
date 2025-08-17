@@ -1,89 +1,146 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
-export default function LeadDetailPanel({ lead, onSave, onClose, saving, error, onConvert }) {
-  const [email, setEmail] = useState(lead.email);
-  const [status, setStatus] = useState(lead.status);
-  const [emailError, setEmailError] = useState("");
+export default function LeadDetailPanel({ lead, onSave, saving, error, onClose, onConvert, darkMode }) {
+  const [patch, setPatch] = useState({
+    name: lead.name,
+    company: lead.company,
+    email: lead.email,
+    source: lead.source,
+    score: lead.score,
+    status: lead.status,
+  });
 
-  const validateEmail = (value) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPatch((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = async () => {
-    if (!validateEmail(email)) {
-      setEmailError("Please enter a valid email");
-      return;
-    }
-    await onSave({ email, status });
-    onClose();
-  };
+  const panelBg = darkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900";
+  const inputBg = darkMode ? "bg-gray-800 text-gray-100 border-gray-700" : "bg-gray-100 text-gray-900 border-gray-300";
 
   return (
-    <div className="fixed inset-0 bg-black/30 z-40 flex justify-end">
-      <div className="bg-white w-full md:w-1/3 h-full p-6 shadow-lg overflow-y-auto relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-        >
-          ✖
-        </button>
-        <h2 className="text-xl font-bold mb-4">Edit Lead</h2>
-        <div className="mb-4">
-          <label className="block font-semibold">Name</label>
-          <p>{lead.name}</p>
-        </div>
-        <div className="mb-4">
-          <label className="block font-semibold">Company</label>
-          <p>{lead.company}</p>
-        </div>
-        <div className="mb-4">
-          <label className="block font-semibold">Email</label>
-          <input
-            type="email"
-            className="border px-2 py-1 w-full rounded"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
-          />
-          {emailError && <p className="text-red-600 mt-1">{emailError}</p>}
-        </div>
-        <div className="mb-4">
-          <label className="block font-semibold">Status</label>
-          <select
-            className="border px-2 py-1 w-full rounded"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          >
-            <option value="New">New</option>
-            <option value="Contacted">Contacted</option>
-            <option value="Qualified">Qualified</option>
-            <option value="Lost">Lost</option>
-          </select>
+    <motion.div
+      className={`fixed inset-0 z-50 flex justify-end`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* Overlay */}
+      <div
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+        onClick={onClose}
+      ></div>
+
+      {/* Slide-over Panel */}
+      <motion.div
+        className={`relative w-full max-w-md h-full shadow-xl overflow-y-auto ${panelBg} transition-colors duration-500`}
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+      >
+        {/* Header */}
+        <div className="flex justify-between items-center px-6 py-4 border-b border-gray-700">
+          <h2 className="text-2xl font-semibold">Lead Details</h2>
+          <button onClick={onClose} className="p-2 rounded hover:bg-gray-700 transition">
+            <XMarkIcon className="h-6 w-6" />
+          </button>
         </div>
 
-        <div className="flex justify-end gap-2 mt-6">
+        {/* Body */}
+        <div className="px-6 py-4 space-y-4">
+          {error && <p className="text-red-500">{error}</p>}
+
+          <div className="flex flex-col space-y-2">
+            <label>Name</label>
+            <input
+              type="text"
+              name="name"
+              value={patch.name}
+              onChange={handleChange}
+              className={`border px-3 py-2 rounded ${inputBg} transition-colors duration-500`}
+            />
+          </div>
+
+          <div className="flex flex-col space-y-2">
+            <label>Company</label>
+            <input
+              type="text"
+              name="company"
+              value={patch.company}
+              onChange={handleChange}
+              className={`border px-3 py-2 rounded ${inputBg} transition-colors duration-500`}
+            />
+          </div>
+
+          <div className="flex flex-col space-y-2">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={patch.email}
+              onChange={handleChange}
+              className={`border px-3 py-2 rounded ${inputBg} transition-colors duration-500`}
+            />
+          </div>
+
+          <div className="flex flex-col space-y-2">
+            <label>Source</label>
+            <input
+              type="text"
+              name="source"
+              value={patch.source}
+              onChange={handleChange}
+              className={`border px-3 py-2 rounded ${inputBg} transition-colors duration-500`}
+            />
+          </div>
+
+          <div className="flex flex-col space-y-2">
+            <label>Score</label>
+            <input
+              type="number"
+              name="score"
+              value={patch.score}
+              onChange={handleChange}
+              className={`border px-3 py-2 rounded ${inputBg} transition-colors duration-500`}
+            />
+          </div>
+
+          <div className="flex flex-col space-y-2">
+            <label>Status</label>
+            <select
+              name="status"
+              value={patch.status}
+              onChange={handleChange}
+              className={`border px-3 py-2 rounded ${inputBg} transition-colors duration-500`}
+            >
+              <option value="New">New</option>
+              <option value="Contacted">Contacted</option>
+              <option value="Qualified">Qualified</option>
+              <option value="Lost">Lost</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 flex justify-end space-x-3 border-t border-gray-700">
           <button
-            onClick={onConvert}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+            onClick={() => onConvert(lead)}
+            className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg transition"
           >
             Convert
           </button>
           <button
-            onClick={handleSave}
+            onClick={() => onSave(patch)}
             disabled={saving}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+            className={`px-4 py-2 rounded-lg transition ${saving ? "bg-gray-500" : "bg-blue-600 hover:bg-blue-500 text-white"}`}
           >
             {saving ? "Saving..." : "Save"}
           </button>
-          <button
-            onClick={onClose}
-            className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
-          >
-            Cancel
-          </button>
         </div>
-        {error && <p className="text-red-600 mt-2">{error}</p>}
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
