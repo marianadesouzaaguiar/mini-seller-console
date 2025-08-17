@@ -81,12 +81,6 @@ mini-seller-console/
 
 📄 Data Export – export leads and opportunities as PDF or CSV
 
-💾 Persist filters and sort order in localStorage
-
-⚠️ Rollback for network errors (optimistic update failures)
-
-📱 Enhanced responsive design for tablets and mobile
-
 ✅ Unit and integration tests
 
 📝 LeadDetailPanel Overview

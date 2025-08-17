@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Dashboard from "./pages/Dashboard";
 import LeadsPage from "./pages/LeadsPage";
 import OpportunitiesPage from "./pages/OpportunitiesPage";
+import "./index.css";
 
 export default function App() {
   return (
