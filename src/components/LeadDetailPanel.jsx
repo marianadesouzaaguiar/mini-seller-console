@@ -39,6 +39,7 @@ export default function LeadDetailPanel({ lead, onSave, saving, error, onClose, 
     if (!validateAll()) return;
     await onSave(patch);
     setToastMsg("Lead saved!");
+    onClose();
   };
 
   const handleConvertClick = async () => {

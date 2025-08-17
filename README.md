@@ -2,7 +2,8 @@
 
 A sleek **React + Vite** dashboard for managing leads and opportunities with interactive features, **dark mode 🌑/🌞**, filters, sorting, **confetti 🎉 celebration**, and toast notifications 🔔.
 
-![Dark Mode Dashboard](src/assets/darkmode_dash.png)
+![Dark Mode Dashboard]
+![alt text](image.png)
 
 ---
 
