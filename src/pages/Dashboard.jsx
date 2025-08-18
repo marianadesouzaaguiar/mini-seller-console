@@ -252,7 +252,7 @@ export default function Dashboard() {
                   >
                     <td className="px-4 py-2 max-w-[60px] truncate">{o.id}</td>
                     <td className="px-4 py-2 max-w-[180px] truncate">{o.name}</td>
-                    <td className={`px-3 py-1 inline-block min-w-[70px] max-w-[120px] fonte-medium bg-clip-padding ${getStatusColor(o.stage)}`}>
+                    <td className={`px-3 py-1 inline-block min-w-[70px] max-w-[120px] fonte-medium ${getStatusColor(o.stage)}`}>
                       {o.stage}
                     </td>
                     <td className="px-4 py-2 max-w-[100px] truncate">{o.amount || "-"}</td>
