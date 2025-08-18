@@ -35,7 +35,7 @@ export function AppProvider({ children }) {
       setLeads((prev) =>
         prev.map((lead) => (lead.id === updatedLead.id ? { ...updatedLead } : lead))
       );
-      setNotification("✅ Lead saved!");
+      setNotification("✅ Lead saved successfully!");
       setNotificationType("success");
       setSaving(false);
     } catch (err) {

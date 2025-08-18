@@ -52,7 +52,7 @@ Convert to Opportunity – In the slide-over panel, click Convert
 
 ⚠️ If lead already exists as an opportunity: "This lead is already an opportunity!"
 
-Save Lead Changes – Toast appears: "Lead saved!"
+Save Lead Changes – Toast appears: "Lead saved successfully!"
 
 🧩 Components
 Dashboard.jsx – Main dashboard page with leads & opportunities tables
