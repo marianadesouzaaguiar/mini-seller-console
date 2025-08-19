@@ -1,87 +1,134 @@
-// src/components/LeadTable.jsx
 import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaTrophy } from "react-icons/fa";
 
 export default function LeadTable({
-  leads,
-  query,
-  status,
+  leads = [],
+  search,
+  setSearch,
+  statusFilter,
+  setStatusFilter,
   sortDesc,
-  onQuery,
-  onStatus,
-  onToggleSort,
-  onRowClick,
+  setSortDesc,
+  darkMode,
+  getStatusColor,
+  getRowBg,
+  getRowHover,
+  rowAnimation,
+  selectedLead,
+  setSelectedLead,
+  handleConvert,
+  handleSaveLead,
+  saving,
+  saveError,
+  newOpportunityId,
 }) {
-  // Filtro, busca e sort
-  let filtered = [...leads];
-  if (query.trim()) {
-    filtered = filtered.filter(
-      (l) =>
-        l.name.toLowerCase().includes(query.toLowerCase()) ||
-        l.company.toLowerCase().includes(query.toLowerCase())
-    );
-  }
-  if (status !== "All") filtered = filtered.filter((l) => l.status === status);
-  filtered.sort((a, b) => (sortDesc ? b.score - a.score : a.score - b.score));
+  const filteredLeads = leads
+    .filter((lead) => {
+      const name = lead.name || "";
+      const company = lead.company || "";
+      return (
+        name.toLowerCase().includes(search.toLowerCase()) ||
+        company.toLowerCase().includes(search.toLowerCase())
+      );
+    })
+    .filter((lead) =>
+      statusFilter ? (lead.status || "").toLowerCase() === statusFilter.toLowerCase() : true
+    )
+    .sort((a, b) => (sortDesc ? (b.score || 0) - (a.score || 0) : (a.score || 0) - (b.score || 0)));
 
   return (
-    <div className="p-4 border rounded-md">
-      <div className="flex flex-col sm:flex-row gap-4 mb-4">
+    <div className="overflow-x-auto w-full mb-8">
+      <div className="flex flex-wrap gap-4 mb-4">
         <input
           type="text"
-          placeholder="Search by name or company"
-          value={query}
-          onChange={(e) => onQuery(e.target.value)}
-          className="w-full sm:w-1/2 px-3 py-2 border rounded-md"
+          placeholder="Search by name or company..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className={`border px-4 py-2 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-300 flex-1 min-w-[200px] transition-colors duration-500 ${
+            darkMode ? "bg-gray-800 text-gray-100 border-gray-700 placeholder-gray-400" : "bg-white text-gray-900 border-gray-300 placeholder-gray-500"
+          }`}
         />
         <select
-          value={status}
-          onChange={(e) => onStatus(e.target.value)}
-          className="w-full sm:w-1/4 px-3 py-2 border rounded-md"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className={`border px-4 py-2 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-300 transition-colors duration-500 ${
+            darkMode ? "bg-gray-800 text-gray-100 border-gray-700" : "bg-white text-gray-900 border-gray-300"
+          }`}
         >
-          <option value="All">All Statuses</option>
+          <option value="">All Statuses</option>
           <option value="New">New</option>
           <option value="Contacted">Contacted</option>
           <option value="Qualified">Qualified</option>
           <option value="Lost">Lost</option>
         </select>
-        <button
-          className="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300"
-          onClick={onToggleSort}
+        <select
+          value={sortDesc ? "desc" : "asc"}
+          onChange={(e) => setSortDesc(e.target.value === "desc")}
+          className={`border px-4 py-2 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-300 transition-colors duration-500 ${
+            darkMode ? "bg-gray-800 text-gray-100 border-gray-700" : "bg-white text-gray-900 border-gray-300"
+          }`}
         >
-          Sort Score {sortDesc ? "↓" : "↑"}
-        </button>
+          <option value="desc">Score: High → Low</option>
+          <option value="asc">Score: Low → High</option>
+        </select>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse border rounded-lg overflow-hidden">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Company</th>
-              <th className="px-4 py-2 text-left">Email</th>
-              <th className="px-4 py-2 text-left">Source</th>
-              <th className="px-4 py-2 text-left">Score</th>
-              <th className="px-4 py-2 text-left">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((lead) => (
-              <tr
+      <table
+        className={`min-w-full table-auto rounded-xl shadow-md ${darkMode ? "bg-gray-800" : "bg-white"} transition-colors duration-500`}
+      >
+        <thead className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-indigo-100 text-indigo-800"}`}>
+          <tr>
+            <th className="px-4 py-1.5 text-left">ID</th>
+            <th className="px-4 py-1.5 text-left">Name</th>
+            <th className="px-4 py-1.5 text-left">Company</th>
+            <th className="px-4 py-1.5 text-left">Email</th>
+            <th className="px-4 py-1.5 text-left">Source</th>
+            <th className="px-2 py-1.5 text-left">Score</th>
+            <th className="px-3 py-1.5 text-left">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <AnimatePresence>
+            {filteredLeads.map((lead, index) => (
+              <motion.tr
                 key={lead.id}
-                className="hover:bg-gray-50 cursor-pointer"
-                onClick={() => onRowClick?.(lead)}
+                className={`cursor-pointer transition-all duration-200 border-b ${getRowBg(index, darkMode)} ${getRowHover(darkMode)}`}
+                onClick={() => setSelectedLead(lead)}
+                variants={rowAnimation}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                custom={index}
+                layout
               >
-                <td className="px-4 py-2">{lead.name}</td>
-                <td className="px-4 py-2">{lead.company}</td>
-                <td className="px-4 py-2">{lead.email}</td>
-                <td className="px-4 py-2">{lead.source}</td>
-                <td className="px-4 py-2">{lead.score}</td>
-                <td className="px-4 py-2">{lead.status}</td>
-              </tr>
+                <td className="px-4 py-1.5">{lead.id || "-"}</td>
+                <td className="px-4 py-1.5">{lead.name || "-"}</td>
+                <td className="px-4 py-1.5">{lead.company || "-"}</td>
+                <td className="px-4 py-1.5">{lead.email || "-"}</td>
+                <td className="px-4 py-1.5">{lead.source || "-"}</td>
+                <td className="px-2 py-1 text-xs">
+                  <div className="flex items-center gap-1">
+                    <span>{lead.score || 0}</span>
+                    {lead.maxScore && (
+                      <motion.span
+                        animate={{ scale: [1, 1.3, 1] }}
+                        transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 1 }}
+                        className="text-yellow-400"
+                      >
+                        <FaTrophy />
+                      </motion.span>
+                    )}
+                  </div>
+                </td>
+                <td className={`px-3 py-1 min-w-[70px] text-center rounded-full inline-block font-medium text-xs ${getStatusColor(lead.status)}`}>
+                  {lead.status || "-"}
+                </td>
+              </motion.tr>
             ))}
-          </tbody>
-        </table>
-      </div>
+          </AnimatePresence>
+        </tbody>
+      </table>
     </div>
   );
 }

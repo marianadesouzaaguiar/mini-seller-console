@@ -1,8 +1,23 @@
+// src/AppContext.jsx
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 import confetti from "canvas-confetti";
 import leadsData from "./leads.json";
 
 const AppContext = createContext();
+
+const statusToStage = (status) => {
+  switch (status.toLowerCase()) {
+    case "new":
+      return "Prospecting";
+    case "contacted":
+      return "Engaged";
+    case "qualified":
+      return "Negotiation";
+    default:
+      return status;
+  }
+};
 
 export function AppProvider({ children }) {
   const [leads, setLeads] = useState(leadsData);
@@ -10,7 +25,7 @@ export function AppProvider({ children }) {
 
   const [selectedLead, setSelectedLead] = useState(null);
   const [notification, setNotification] = useState(null);
-  const [notificationType, setNotificationType] = useState("success"); // success, error, warning
+  const [notificationType, setNotificationType] = useState("success");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [sortDesc, setSortDesc] = useState(true);
@@ -20,7 +35,6 @@ export function AppProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Limpa notification automaticamente
   useEffect(() => {
     if (notification) {
       const timer = setTimeout(() => setNotification(null), 3000);
@@ -32,8 +46,22 @@ export function AppProvider({ children }) {
   const handleSaveLead = (updatedLead) => {
     setSaving(true);
     try {
+      // Adicionando a lógica de score aqui, no momento da atualização
+      let finalLead = { ...updatedLead };
+      if (finalLead.score > 100) {
+        confetti({
+          particleCount: 25,
+          spread: 40,
+          origin: { y: 0.3 },
+          colors: ["#FFD700", "#FFC107", "#FFF59D"],
+          scalar: 0.8,
+        });
+        finalLead.score = 100;
+      }
+      finalLead.maxScore = finalLead.score === 100;
+
       setLeads((prev) =>
-        prev.map((lead) => (lead.id === updatedLead.id ? { ...updatedLead } : lead))
+        prev.map((lead) => (lead.id === finalLead.id ? finalLead : lead))
       );
       setNotification("✅ Lead saved successfully!");
       setNotificationType("success");
@@ -46,7 +74,6 @@ export function AppProvider({ children }) {
     }
   };
 
-  // Converter lead em oportunidade
   const handleConvertToOpportunity = (lead) => {
     if (opportunities.some((o) => o.id === lead.id)) {
       setNotification("⚠️ This lead is already an opportunity!");
@@ -57,16 +84,16 @@ export function AppProvider({ children }) {
     const newOpportunity = {
       id: lead.id,
       name: lead.name,
-      stage: lead.status,
-      amount: lead.score * 1000, 
+      stage: statusToStage(lead.status),
+      amount: lead.score * 1000,
       accountName: lead.company,
     };
 
     setOpportunities((prev) => [...prev, newOpportunity]);
+    setLeads((prevLeads) => prevLeads.filter((l) => l.id !== lead.id));
     setNotification("🎉 New Opportunity Created!");
     setNotificationType("success");
 
-    // Confetti discreto
     confetti({
       particleCount: 25,
       spread: 40,
@@ -75,25 +102,6 @@ export function AppProvider({ children }) {
       scalar: 0.8,
     });
   };
-
-  // Limite de score a 100 e destaque visual
-  useEffect(() => {
-    setLeads((prevLeads) =>
-      prevLeads.map((lead) => {
-        if (lead.score > 100) {
-          confetti({
-            particleCount: 25,
-            spread: 40,
-            origin: { y: 0.3 },
-            colors: ["#FFD700", "#FFC107", "#FFF59D"],
-            scalar: 0.8,
-          });
-          return { ...lead, score: 100, maxScore: true };
-        }
-        return { ...lead, maxScore: lead.score === 100 };
-      })
-    );
-  }, [leads]);
 
   return (
     <AppContext.Provider
@@ -111,6 +119,7 @@ export function AppProvider({ children }) {
         notification,
         setNotification,
         notificationType,
+        setNotificationType, // LINHA CORRIGIDA
         search,
         setSearch,
         statusFilter,

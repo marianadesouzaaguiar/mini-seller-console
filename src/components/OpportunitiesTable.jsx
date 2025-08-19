@@ -1,39 +1,79 @@
-// src/components/OpportunitiesTable.jsx
 import React from "react";
-import StatusDropdown from "./StatusDropdown";
 
-export default function OpportunitiesTable({ opportunities, onUpdateStatus }) {
+export default function OpportunitiesTable({
+  opportunities = [],
+  darkMode,
+  stageFilter,
+  setStageFilter,
+  getStatusColor,
+  getRowBg,
+  getRowHover,
+}) {
+  const filteredOpportunities = opportunities.filter((o) =>
+    stageFilter ? o.stage.toLowerCase() === stageFilter.toLowerCase() : true
+  );
+
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse rounded-lg shadow-sm">
-        <thead>
-          <tr className="bg-gray-200 dark:bg-gray-700 text-left">
-            <th className="p-3">Name</th>
-            <th className="p-3">Email</th>
-            <th className="p-3">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {opportunities.map((opportunity) => (
-            <tr
-              key={opportunity.id}
-              className="border-b border-gray-200 dark:border-gray-700 
-                         hover:bg-gray-100 dark:hover:bg-gray-800"
-            >
-              <td className="p-3">{opportunity.name}</td>
-              <td className="p-3">{opportunity.email}</td>
-              <td className="p-3">
-                <StatusDropdown
-                  value={opportunity.status}
-                  onChange={(newStatus) =>
-                    onUpdateStatus(opportunity.id, newStatus)
-                  }
-                />
-              </td>
+    <div className="overflow-x-auto w-full mb-8">
+      <h2 className="text-2xl font-semibold mb-2 text-green-400">💼 Opportunities</h2>
+
+      {/* Stage Filter */}
+      <div className="flex gap-4 mb-4">
+        <select
+          value={stageFilter}
+          onChange={(e) => setStageFilter(e.target.value)}
+          className={`border px-4 py-2 rounded-lg shadow-sm transition-colors duration-500 ${
+            darkMode ? "bg-gray-800 text-gray-100 border-gray-700" : "bg-white text-gray-900 border-gray-300"
+          }`}
+        >
+          <option value="">All Stages</option>
+          <option value="Prospecting">Prospecting</option>
+          <option value="Engaged">Engaged</option>
+          <option value="Negotiation">Negotiation</option>
+        </select>
+      </div>
+
+      {filteredOpportunities.length === 0 ? (
+        <p className="italic text-gray-400">No opportunities available.</p>
+      ) : (
+        <table
+          className={`min-w-full table-auto rounded-xl shadow-md ${
+            darkMode ? "bg-gray-800" : "bg-white"
+          } transition-colors duration-500`}
+        >
+          <thead className={`${darkMode ? "bg-gray-700 text-gray-100" : "bg-green-100 text-green-800"}`}>
+            <tr>
+              <th className="px-4 py-1.5 text-left">ID</th>
+              <th className="px-4 py-1.5 text-left">Name</th>
+              <th className="px-4 py-1.5 text-left">Stage</th>
+              <th className="px-4 py-1.5 text-left">Amount</th>
+              <th className="px-4 py-1.5 text-left">Account</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredOpportunities.map((o, index) => (
+              <tr
+                key={o.id}
+                className={`transition-all duration-200 border-b ${getRowBg(index, darkMode)} ${getRowHover(
+                  darkMode
+                )}`}
+              >
+                <td className="px-4 py-1.5">{o.id}</td>
+                <td className="px-4 py-1.5">{o.name}</td>
+                <td
+                  className={`px-3 py-1 min-w-[70px] text-center rounded-full inline-block font-medium text-xs ${getStatusColor(
+                    o.stage
+                  )}`}
+                >
+                  {o.stage}
+                </td>
+                <td className="px-4 py-1.5">{o.amount || "-"}</td>
+                <td className="px-4 py-1.5">{o.accountName || "-"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
